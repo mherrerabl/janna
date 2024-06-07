@@ -1,0 +1,63 @@
+<!--<div [class.animate-openMenu]="isOpen" [class.animate-closeMenu]="!isOpen">-->
+<div *ngIf="showCart$ | async as showCart">
+    <div class="block fixed top-0 left-0 right-0 bottom-0 bg-darkGrey/40 transition-opacity z-1000"
+        [class.invisible]="showCart === 'close'"  
+        [class.opacity-0]="showCart === 'close'" 
+        [class.visible]="showCart === 'open'"  
+        [class.opacity-1]="showCart === 'open'" 
+        [class.modal]="showCart === 'open'"
+        (click)="closeCart()"
+        >
+        <div (click)="$event.stopPropagation()">
+            <div class="modal-right">
+                <div class="flex flex-col justify-between h-fit bg-white">
+                        <div class="sticky top-0 px-4 bg-white z-50">
+                            <button class="icon-xl button-icon h-[65px] text-start" (click)="closeCart()">
+                                <fa-icon [icon]="iconClose"></fa-icon>
+                            </button>
+                            <h2 class="pb-separator-30">Carrito</h2>
+                        </div>
+                        
+                        <ul class="px-4 overflow-y-scroll h-cart">
+                            @if (dataProducts != null && dataProducts.length > 0) {
+                                @for (product of dataProducts; track $index) {
+                                    <li class="flex flex-col h-fit">
+                                       
+                                        <div class="flex justify-between gap-2">
+                                            <picture class="relative block overflow-hidden w-1/3 h-full min-h-[150px]">                 
+                                                <source [srcset]="'data:image/webp;base64,'+product.image.picture_webp" type="image/webp">
+                                                <img class="absolute object-cover object-center w-full h-full" 
+                                                    [src]="'data:image/jpg;base64,'+product.image.picture_jpg" 
+                                                    [alt]="product.image.title">
+                                            </picture>
+            
+                                            <div class="flex flex-col">
+                                                <button class="icon-m button-icon mb-2 mr-2 text-end" (click)="removeProduct(product.id)">
+                                                    <fa-icon [icon]="iconClose"></fa-icon>
+                                                </button>
+                                                <p class="subtitle-m flex-1 text-end">{{ product.name }}</p>
+                                                <div class="flex gap-2 items-center">
+                                                    <p class="my-2">{{ product.price.price| number: '1.2-2':'es' }} €/u.</p>                                                    
+                                                    <app-counter [counter]="product.quantity" [stock]="product.stock" (newCounterValue)="changeQuantity($event, $index)"></app-counter>  
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <p class="flex justify-between text-l mb-6 px-2 py-1 bg-primary">Precio <span>{{ product.quantity * product.price.price | number: '1.2-2':'es' }} €</span></p>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                            
+                    <div class="sticky bottom-0 h-fit flex flex-col justify-center bg-white">
+                        <p class="h4 flex justify-between py-[10px] px-[15px] mb-separator-30 bg-primary">Total <span class="h4">{{ getTotalCart() | number: '1.2-2':'es' }} €</span></p>
+                        <button class="button button-s m-auto mb-separator-50" [routerLink]="'checkout'">Realizar pedido</button>
+                
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<app-breadcrumbs></app-breadcrumbs>
+@if (treatment.name.length > 0 ) {
+    <h1 class="my-separator-30">{{ treatment.name }}</h1>
+
+    <section class="mb-section">
+        <div class="flex flex-col md:flex-row-reverse md:gap-4">
+            <div class="md:w-1/2 md:mt-2">
+                @if (treatment.images !== undefined) {
+                    <swiper-container navigation="true" scrollbar="true">
+                @for (image of treatment.images; track $index) {
+                    <swiper-slide>
+                        <picture class="relative block overflow-hidden w-full h-full min-h-[300px]">                 
+                            <source [srcset]="'data:image/jpg;base64,'+image.picture_webp" type="image/webp">
+                            <img class="absolute object-cover object-center w-full h-full" 
+                                [src]="'data:image/jpg;base64,'+image.picture_jpg" 
+                                [alt]="image.title">
+                        </picture>
+                    </swiper-slide>
+                }
+                </swiper-container>
+                }
+            </div>
+            
+            <p class="py-separator-30 md:pt-0 md:text-justify">{{ treatment.description }}</p>
+        </div>        
+
+        <div class="flex flex-row justify-between mb-separator-50 py-separator-30 px-4 bg-primary md:py-2 lg:my-separator-30">
+            <div class="icon-2xl md:icon-3xl flex flex-col [&>*]:flex-auto w-1/3">
+                <fa-icon [icon]="iconHourglass"></fa-icon>
+                <p class="body-l text-center">{{ treatment.duration }} minutos</p>
+            </div>
+            <div class="icon-2xl md:icon-3xl flex flex-col [&>*]:flex-auto w-1/3">
+                <fa-icon [icon]="iconClock"></fa-icon>
+                <p class="body-l text-center">{{ treatment.sessions }} sesiones</p>
+            </div>
+            <div class="icon-2xl md:icon-3xl flex flex-col [&>*]:flex-auto w-1/3">
+                <fa-icon [icon]="iconEuro"></fa-icon>
+                <p *ngIf="treatment.price!= undefined" class="body-l text-center">{{ treatment.price.price | number: '1.2-2':'es'}} € la sesión</p>
+
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center lg:my-separator-50">
+            <button class="button button-m w-[150px]" [routerLink]="'/agenda'">Pedir cita</button>
+            <button class="button-link button-m" (click)="navigateToSection('mailContact')">Para cualquier duda contáctenos</button>
+        </div>
+    </section>
+
+    @if (productsRelated.length > 0) {
+        <section>
+            <h3 class="mb-separator-30">Productos relacionados</h3>
+            <swiper-container navigation="true" scrollbar="true" space-between="30" [breakpoints]="breakpoints">
+                @for (product of productsRelated; track $index) {
+                   <swiper-slide>
+                    <a class="button-icon group relative flex flex-col w-full h-full" [routerLink]="['../../../../tienda/producto/'+product.id]">
+                        @if (product.images !== undefined) {
+                            <picture class="relative block overflow-hidden w-full h-32 sm:h-40 md:h-52 xl:h-64">                 
+                                <source [srcset]="'data:image/webp;base64,'+product.images[0].picture_webp" type="image/webp">
+                                <img class="absolute object-cover object-center w-full h-full" [src]="'data:image/jpg;base64,'+product.images[0].picture_jpg" [alt]="product.images[0].title">
+                            </picture>
+                        }
+                        <p class="subtitle-m py-2">{{ product.brand | uppercase}}</p>
+                        <h4 class="flex-auto">{{ product.name }}</h4>
+                    </a>
+                   </swiper-slide>
+                    
+                }
+            </swiper-container>
+        </section>
+    }
+}

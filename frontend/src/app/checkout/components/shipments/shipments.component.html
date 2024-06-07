@@ -1,0 +1,153 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<h1 class="mb-separator-30">Realizar pedido</h1>
+
+<app-cart-dropdown class="mb-separator-30"></app-cart-dropdown>
+
+<section>
+    <h2 class="my-separator-30">Método de envío</h2>
+    
+    <form [formGroup]="shippmentMethodForm" class="px-2">
+        <label for="methodShop" class="flex items-center cursor-pointer mb-6">
+            <input id="methodShop" class="w-4 h-4 mr-2 accent-secundary-500"
+            type="radio" 
+            value="shop"
+            required="true"
+            [formControl]="methodShipment"
+            (click)="saveAddres('shop')">
+        
+          <span>Recoger en tienda</span>
+        </label>
+        <label for="methodShipment" class="flex items-center cursor-pointer mb-6">
+            <input id="methodShipment" class="w-4 h-4 mr-2 accent-secundary-500"
+            type="radio" 
+            value="shipment"
+            [formControl]="methodShipment"
+            (click)="saveAddres('shipment')">
+        
+          <span>Envío a domicilio</span>
+        </label>  
+    </form>
+
+    @if (shippmentMethodForm.controls['method'].value === 'shop') {
+        <section>
+            <h3 class="mb-4">Recoger en tienda</h3>
+            <p class="px-2">C/Sant Llorenç de Brindisi, 22, 08241 Manresa, Barcelona</p>
+            
+            <section class="mt-4 px-2">
+                <h4 class="mb-2">Horario</h4>
+                <table class="px-2">
+                    <tr>
+                        <td class="w-24">Lunes</td>
+                        <td>9:00-13:00, 15:00-19:00</td>
+                    </tr>
+                    <tr>
+                        <td>Martes</td>
+                        <td>9:00-13:00, 15:00-19:00</td>
+                    </tr>
+                    <tr>
+                        <td>Miércoles</td>
+                        <td>9:00-13:00, 15:00-19:00</td>
+                    </tr>
+                    <tr>
+                        <td>Jueves</td>
+                        <td>9:00-13:00, 15:00-19:00</td>
+                    </tr>
+                    <tr>
+                        <td>Viernes</td>
+                        <td>9:00-13:00, 15:00-19:00</td>
+                    </tr>
+                    <tr>
+                        <td>Sábado</td>
+                        <td>9:00-14:00</td>
+                    </tr>
+                    <tr>
+                        <td>Domingo</td>
+                        <td>Cerrado</td>
+                    </tr>
+                </table>
+            </section>
+        </section>
+    }
+
+    @if (shippmentMethodForm.controls['method'].value === 'shipment') {
+        <section>
+            <h3 class="mb-4">Envio a domicilio</h3>
+                <form [formGroup]="addressShipmentFrom" class="px-2">
+                    @if (addresses.length > 0) {
+                        @for (address of addresses; track $index) {
+                            <label [for]="'address'+address.id" class="flex items-center cursor-pointer mb-6">
+                                <input [id]="'address'+address.id" class="w-4 h-4 mr-2 accent-secundary-500"
+                                type="radio" 
+                                [value]="'address'+address.id"
+                                [formControl]="addressShipment"
+                                (click)="saveAddres('shipment', address.id)">
+                                <span>{{ address.name }}</span>
+                                <span *ngIf="address.predetermined == true"> (Predeterminada)</span>
+                            </label>
+                        }
+                    }
+                    
+                    <label for="newAddress" class="flex items-center cursor-pointer mb-6">
+                        <input id="newAddress" class="w-4 h-4 mr-2 accent-secundary-500"
+                        type="radio" 
+                        value="new"
+                        required="true"
+                        [formControl]="addressShipment">
+                        <span>Añadir nueva dirección</span>
+                    </label>  
+                </form>
+        </section>
+
+        @if (addressShipmentFrom.controls['address'].value == 'new') {
+            <section>
+                <h3>Nueva dirección</h3>
+                            
+                @if(showFeedback) {
+                    <div class="bg-primary p-4 mb-6">
+                        <p id="addressFeedback"></p>
+                    </div>
+                }
+
+                @if(showErrorFeedback) {
+                    <div class="text-error-500 p-4 mb-6">
+                        <p>Ha surgido un error, intentelo más tarde.</p>
+                    </div>
+                }
+
+                <form class="mb-separator-30" 
+                    [formGroup]="addressForm" 
+                    (ngSubmit)="sendForm()"
+                >
+                    @for (input of inputsForm; track $index) {
+                        <app-input [dataInput]="input" [checkForm]="checkForm"></app-input>
+                    }
+
+                    <label for="predeterminedAddress" class="flex items-center cursor-pointer mb-6">
+                        <input id="predeterminedAddress" class="w-4 h-4 mr-2 border-2 accent-secundary-500 focus:ring-2 focus:ring-secundary-500"
+                        [class.invalid:ring-2]="checkForm" [class.invalid:ring-error-500]="checkForm" 
+                        type="checkbox" 
+                        required="false" 
+                        [formControl]="predetermined"
+                        (change)="isPredetermined = !isPredetermined">
+                    
+                    <span>Marcar esta dirección como predeterminada</span>
+                    </label>
+
+                    <div class="flex justify-center">
+                        <button class="button button-m px-6" type="submit">Añadir</button>
+                    </div>     
+                </form>
+            </section>
+        }
+    }
+
+    <div class="flex justify-end">
+        <button role="link" class="button button-m px-6" 
+            [routerLink]="['../','pago']"
+            [disabled]="!shippmentMethodForm.valid || (!addressShipmentFrom.valid && addressShipmentFrom.controls['address'].value == 'new')">
+            Siguiente
+        </button>
+    </div>  
+
+</section>

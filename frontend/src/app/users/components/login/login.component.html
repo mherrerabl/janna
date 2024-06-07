@@ -1,0 +1,65 @@
+<div *ngIf="showLogin$ | async as showLogin">
+    <div class="block fixed top-0 left-0 right-0 bottom-0 bg-darkGrey/40 transition-opacity z-[9000]" 
+        [class.invisible]="showLogin === 'close'"  
+        [class.opacity-0]="showLogin === 'close'" 
+        [class.visible]="showLogin === 'open'"  
+        [class.opacity-1]="showLogin === 'open'" 
+        [class.modal]="showLogin === 'open'"
+        (click)="closeLogin()">
+        <div (click)="$event.stopPropagation()">
+            <div class="modal-center">
+                <button class="icon-xl button-icon h-[65px] flex justify-end w-full mr-2" (click)="closeLogin()">
+                    <fa-icon [icon]="iconClose"></fa-icon>
+                </button>
+                
+                <h2 class="text-center">Iniciar sesión</h2>
+                @if(showFeedback) {
+                    <div class="bg-primary p-4 mb-6">
+                        <p id="loginFeedback"></p>
+                    </div>
+                }
+
+                @if(showErrorFeedback) {
+                    <div class="text-error-500 p-4 mb-6">
+                        @if (errorPassword) {
+                            <p>La contraseña no es correcta.</p>
+                        }
+                        
+                        @if (errorEmail) {
+                            <p>El correo electrónico no es correcto.</p>
+                        }
+                        
+                    </div>
+                }
+
+                <form class="mb-separator-30" 
+                    [formGroup]="loginForm" 
+                    (ngSubmit)="login()"
+                >
+                
+                    @for (input of inputsForm; track $index) {
+                        <app-input [dataInput]="input" [checkForm]="checkForm"></app-input>
+                    }
+                    <label for="keepLogin" class="flex items-center cursor-pointer mb-6">
+                        <input id="keepLogin" class="w-4 h-4 mr-2 border-2 accent-secundary-500 focus:ring-2 focus:ring-secundary-500"
+                        [class.invalid:ring-2]="checkForm" [class.invalid:ring-error-500]="checkForm" 
+                        type="checkbox" 
+                        required="false" 
+                        [formControl]="checkLogin"
+                        (change)="getKeepLogin()">
+                    
+                      <span>Mantener iniciada la sesión</span>
+                    </label>
+
+                    <div>
+                        <button class="button button-m min-w-full px-6" type="submit">Enviar</button>
+                    </div>     
+                </form>
+                <div>
+                    <p class="inline">¿No tiene una cuenta?</p> 
+                    <button class="button-link inline ml-2" (click)="openRegister()">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

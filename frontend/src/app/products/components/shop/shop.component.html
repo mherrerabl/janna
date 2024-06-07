@@ -1,0 +1,35 @@
+<app-breadcrumbs></app-breadcrumbs>
+<h1 class="sr-only">Tienda</h1>
+<section class="my-6 flex flex-col gap-8 mb-section">
+    <a class="group relative h-32" [routerLink]="'ofertas'">
+        <picture class="relative block overflow-hidden w-full h-full">                 
+            <source srcset="../../../../assets/images/shop/sales-min.webp" type="image/webp">
+            <img class="absolute object-cover object-center w-full h-full" src="../../../../assets/images/shop/sales-min.jpg" alt="Ofertas">
+        </picture>
+        <h4 class="card-simple-title absolute w-full py-3 md:py-4 top-1/2 -translate-y-1/2 bg-grey text-center">Ofertas</h4>
+
+    </a>
+    <a class="group relative h-32" [routerLink]="'tendencias'">
+        <picture class="relative block overflow-hidden w-full h-full">                 
+            <source srcset="../../../../assets/images/shop/trends-min.webp" type="image/webp">
+            <img class="absolute object-cover object-center w-full h-full" src="../../../../assets/images/shop/trends-min.jpg" alt="Tendencias">
+        </picture>
+        <h4 class="card-simple-title absolute w-full py-3 md:py-4 top-1/2 -translate-y-1/2 bg-grey text-center">Tendencias</h4>
+    </a>
+</section>
+
+<section class="mb-section">
+    <app-categories></app-categories>
+</section>
+
+<section>
+    <h2>Nuevos productos</h2>
+    <div class="flex flex-wrap justify-start w-full">
+        @for (product of newProducts; track $index) {
+            <div class="px-2 pb-4 w-1/2 md:w-1/3 lg:w-1/4">
+                <app-card class="w-full" [dataCard]="product"></app-card>
+
+            </div>
+        }
+    </div>
+</section>

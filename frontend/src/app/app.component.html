@@ -1,0 +1,32 @@
+
+
+<div class="peer flex flex-col flex-grow min-h-screen">
+    <app-header class="bg-primary"></app-header>
+    <main class="container min-h-home mb-section">
+        <router-outlet></router-outlet>
+    </main>
+    <div class="mt-auto mb-separator-50 lg:flex lg:gap-separator-30 lg:container">
+        <div class="mb-separator-30 py-separator-50 bg-primary lg:w-full lg:bg-transparent">
+             <app-location></app-location>
+        </div>
+       <div id="mailContact"  class="py-separator-30 lg:w-full lg:py-separator-50">
+            <app-contact></app-contact>
+       </div>
+        
+    </div>
+    
+    <app-footer class=" bg-primary"></app-footer>
+    <app-menu-footer class="md:lg:hidden"></app-menu-footer>
+</div>
+
+<app-cart></app-cart>
+<app-menu></app-menu>
+<app-register></app-register>
+<app-login></app-login>
+
+@if (showLoading | async) {
+    <div class="block fixed top-0 left-0 right-0 bottom-0 bg-darkGrey/40 transition-opacity z-1000">
+        <app-spinner></app-spinner>
+    </div>
+    
+}

@@ -1,0 +1,117 @@
+@for (detail of dataDetails; track detail) {
+    <div class=" max-w-[1200px] px-8 py-3 border-b border-grey last:border-secundary-500 last:border-b-2">
+        <h6 class="mb-1">{{ detail.title }}</h6>
+        @if (detail.content.info !== undefined) {
+            @if (detail.content.info.text !== undefined) {
+                <p class="px-1 py-3">{{ detail.content.info.text }}</p>
+            }
+            @else if (detail.content.info.price !== undefined) {
+                <p class="px-1 py-3">{{ detail.content.info.price | number: '1.2-2':'es'}} €</p>
+            }
+            @else if (detail.content.info.days !== undefined) {
+                <p class="px-1 py-3">{{ getDays(detail.content.info.days) }}</p>
+            }
+            @else if (detail.content.info.date !== undefined) {
+                <p class="px-1 py-3">{{ detail.content.info.date | date: 'dd/MM/yyyy' }}</p>
+            }
+            
+            @else if (detail.content.info.time !== undefined) {
+                <p class="px-1 py-3">{{ detail.content.info.time | date: 'HH:mm' }}h.</p>
+            }
+            
+            @if (detail.content.info.address !== undefined && detail.content.info.address == null) {
+                <p>{{addressShop.name}}:</p>
+                <p class="px-1 py-3">{{ addressShop.address }}, {{ addressShop.number }}, <span *ngIf="addressShop.additionalInfo !== undefined">{{ addressShop.additionalInfo }}, </span>{{ addressShop.zip }}, {{ addressShop.city }}</p>
+            }
+
+            @else if (detail.content.info.address !== undefined) {
+                <p>{{detail.content.info.address.name}}:</p>
+                <p class="px-1 py-3">{{ detail.content.info.address.address }}, {{ detail.content.info.address.number }}, <span *ngIf="detail.content.info.address.additionalInfo !== undefined">{{ detail.content.info.address.additionalInfo }}, </span>{{ detail.content.info.address.zip }}, {{ detail.content.info.address.city }}</p>
+            }
+        }
+        
+        @else if (detail.content.list !== undefined){
+            <ul class="px-1 py-3">
+                @for (item of detail.content.list; track $index) {
+                       <li>{{ item }}</li> 
+                }
+            </ul>
+        }
+
+        @else if (detail.content.products !== undefined){
+            <table class="table table-fixed w-full max-w-[800px] px-1 py-3">
+                <thead class="hidden md:table-header-group">
+                    <tr>
+                        <th class="text-start w-[10%] max-w-12">Uds.</th>
+                        <th class="text-start w-[40%]">Producto</th>
+                        <th class="text-start w-[20%] max-w-30">Precio</th>
+                        <th class="text-start w-[30%] max-w-20">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (product of detail.content.products; track $index) {
+                        <tr class="block mb-2 px-2 border-b-2 border-grey md:table-row md:border-0 md:mb-0">
+                            <td class="inline-block w-1/3 md:table-cell">{{ product.quantity }}u.</td>
+                            <td class="inline-block w-1/3 md:table-cell">{{ product.name }}</td>
+                            <td class="inline-block w-1/3 md:table-cell">{{ product.price  | number: '1.2-2':'es' }} €/u.</td>
+                            <td class="block md:table- mt-2 md:mt-0">{{ product.state }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        @else if (detail.content.images !== undefined){
+            <div class="flex flex-wrap px-1 py-3">
+                @for (image of detail.content.images; track $index) {
+                    <picture>                 
+                        <source [srcset]="image.picture_webp" type="image/webp">
+                        <img class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-3" [src]="image.picture_jpg" [alt]="image.title">
+                    </picture>
+                }
+            </div> 
+        }
+
+        @else if (detail.content.badges !== undefined){
+            <ul class="flex flex-wrap px-1 py-3 gap-4">
+                @for (badge of detail.content.badges; track $index) {
+                    <li class="text-center"><span class="block w-[50px] h-[50px] m-auto" [style.background-color]="badge.color"></span>{{ badge.name }}</li>
+                }
+            </ul>
+            
+        }
+
+        @else if (detail.content.appointments !== undefined){
+            <div class="max-w-[500px] py-3">
+                <table class="table table-fixed w-full max-w-[500px] px-1 py-3">
+                    <thead class="hidden md:table-header-group">
+                        <tr>
+                            <th class="w-[20%] text-start">Fecha</th>
+                            <th class="w-[60%] text-start">Hora</th>
+                            <th class="w-[20%] text-start">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (session of detail.content.appointments.sessions; track $index) {
+                            <tr class="block mb-4 px-2 border-b-2 border-grey md:table-row md:border-0 md:mb-0">
+                                <td class="inline-block w-1/2 md:w-1/3 md:table-cell">{{ session.date | date: 'dd/MM/yyyy' }}</td>
+                                <td class="inline-block w-1/2 md:w-1/3 md:table-cell">{{ session.date | date: 'HH:mm' }}h.</td>
+                                <td class="block w-full mt-2 md:w-1/3 md:table-cell">{{ session.state }}</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+               @if (detail.content.appointments.state === 'En proceso') {
+                <div class="w-full px-1 py-3 text-right">
+                    <a class="button button-s flex justify-center items-center w-[150px]" 
+                        [routerLink]="'../citas/editar/'+detail.content.appointments.sessions[detail.content.appointments.sessions.length-1].appointment_id">
+                        Modificar cita
+                    </a>
+                </div>
+               }
+               
+            </div>
+        }
+        
+    </div>
+}

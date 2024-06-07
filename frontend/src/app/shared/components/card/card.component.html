@@ -1,0 +1,78 @@
+<div class="space-y-[15px] flex flex-col justify-between h-full">
+    <div>
+        <div class="relative">
+            <div class="absolute flex justify-between w-full p-2">
+                <div class="flex flex-col gap-[5px]">
+                    @if (dataCard.trend) {
+                        <app-badge class="flex justify-start" [dataBadge]="badgeTrend"></app-badge>
+                    }
+                    @if (compareDates(dataCard.creation_date)) {
+                        <app-badge class="flex justify-start" [dataBadge]="badgeNew"></app-badge>
+                    }
+    
+                </div>
+                @if (dataCard.price?.offer !== undefined) {
+                    <div class="flex flex-col gap-[5px]">
+                        <app-badge *ngIf="dataCard.price?.offer === '2n 50%'" class="flex justify-end" [dataBadge]="badgeProm1"></app-badge>
+                        <app-badge *ngIf="dataCard.price?.offer === '3x2'" class="flex justify-end" [dataBadge]="badgeProm2"></app-badge>
+                    </div>
+                }
+                
+            </div>
+            <swiper-container scrollbar="true">
+                @for (image of dataCard.images; track $index) {
+                <swiper-slide>
+                    <a [routerLink]="['producto',dataCard.id]">
+                        <picture class="relative block overflow-hidden w-full h-full min-h-[175px] sm:min-h-[250px]">                 
+                            <source [srcset]="'data:image/jpg;base64,'+image.picture_webp" type="image/webp">
+                            <img class="absolute object-cover object-center w-full h-full" 
+                                [src]="'data:image/jpg;base64,'+image.picture_jpg" 
+                                [alt]="image.title">
+                        </picture>
+                    </a>
+                </swiper-slide>
+            }
+            </swiper-container>       
+        </div>
+        
+        <p class="subtitle-m mt-3">{{ dataCard.brand | uppercase}}</p>
+        <a class="button-icon text-black block my-4" [routerLink]="['producto',dataCard.id]"><h3>{{ dataCard.name }}</h3></a>
+        <p class="mb-4">{{ dataCard.description | shortDescription: 10 }}</p>
+    
+        <!--<div class="flex flex-wrap gap-[10px] mb-4">
+            @for (variation of dataCard.variations; track $index; let first = $first) { 
+                <app-badge  
+                    [dataBadge]="createBadge(variation)" 
+                    [isSelected]="indexVariationText === $index" 
+                    (click)="selectedVariationText($index, variation)">
+                </app-badge>
+            }
+        </div>
+            
+        <div class="flex flex-wrap gap-[10px]">
+            @for (variation of dataCard.variations; track $index) {
+                @for (variation2 of variation.variations; track $index) {
+                    <app-badge 
+                        [dataBadge]="createBadge(variation2)" 
+                        [isSelected]="indexVariationColor === $index" 
+                        (click)="selectedVariationColor($index, variation2)">
+                    </app-badge>
+                }
+            }
+        </div>-->        
+    </div>
+
+    <div>
+        <div class="flex justify-end gap-[10px] mb-4">
+            @if (dataCard.price?.offer) {
+                <p class="body-s line-through text-darkGrey self-end">{{ dataCard.price?.price| number: '1.2-2':'es'}} €</p>
+            }
+            <h4>{{ getPrice() | number: '1.2-2':'es' }} €</h4>
+        </div>
+
+        <div class="flex flex-wrap gap-[10px] sm:flex-nowrap sm:fustify-between">
+            <button class="button button-s w-full max-w-full sm:max-w-[250px]" [disabled]="dataCard.stock <=0 || user.id === ''" (click)="addProduct()">Añadir a la cesta</button>
+            <button class="button-action button-s w-full max-w-full sm:max-w-[250px]" [disabled]="dataCard.stock<=0 || user.id === '' || true">Comprar ya</button>
+        </div>
+    </div>
+</div>

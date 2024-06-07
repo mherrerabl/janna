@@ -1,0 +1,25 @@
+<h1 class="hidden">Inicio</h1>
+<div class="h-home my-6 flex flex-col gap-6 md:h-home-m lg:flex-row">
+    <a class="group relative flex-auto lg:m-auto lg:h-96" [routerLink]="'tratamientos'">
+        <picture class="relative block overflow-hidden w-full h-full">                 
+            <source srcset="../../../../assets/images/home/tratments-min.webp" type="image/webp">
+            <img class="absolute object-cover object-center w-full h-full" src="../../../../assets/images/home/tratments-min.jpg" alt="Tratamientos">
+        </picture>
+        <h3 class="card-simple-title absolute w-full py-3 md:py-6 top-1/2 -translate-y-1/2 bg-grey text-center">Tratamientos</h3>
+
+    </a>
+    <a class="group relative flex-auto lg:m-auto lg:h-96" [routerLink]="'tienda'">
+        <picture class="relative block overflow-hidden w-full h-full">                 
+            <source srcset="../../../../assets/images/home/shop-min.webp" type="image/webp">
+            <img class="absolute object-cover object-center w-full h-full" src="../../../../assets/images/home/shop-min.jpg" alt="Tienda">
+        </picture>
+        <h3 class="card-simple-title absolute w-full py-3 md:py-6 top-1/2 -translate-y-1/2 bg-grey text-center">Tienda</h3>
+    </a>
+    <a class="group relative flex-auto lg:m-auto lg:h-96" [routerLink]="'agenda'">
+        <picture class="relative block overflow-hidden w-full h-full">                 
+            <source srcset="../../../../assets/images/home/schedule-min.webp" type="image/webp">
+            <img class="absolute object-cover object-center w-full h-full" src="../../../../assets/images/home/schedule-min.jpg" alt="Agenda">
+        </picture>
+        <h3 class="card-simple-title absolute w-full py-3 md:py-6 top-1/2 -translate-y-1/2 bg-grey text-center">Agenda</h3>
+    </a>
+</div>

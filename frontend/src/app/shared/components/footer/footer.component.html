@@ -1,0 +1,37 @@
+<footer class="container w-full pb-20 
+    supports-[display:grid]:md:grid supports-[display:grid]:md:grid-cols-3 lg:pb-0">
+    <app-logo class="py-6 flex justify-center 
+        supports-[display:grid]:md:justify-start supports-[display:grid]:md:pl-2 
+        supports-[display:grid]:md:border-b-2 supports-[display:grid]:md:border-secundary-500">
+    </app-logo>
+    <nav class="mx-6 py-6 border-y-2 border-secundary-500 
+        supports-[display:grid]:md:p-0 supports-[display:grid]:md:pt-16 supports-[display:grid]:md:pb-6 supports-[display:grid]:md:border-0
+        supports-[display:grid]:md:row-start-2 supports-[display:grid]:col-start-2 supports-[display:grid]:col-span-2
+        supports-[display:grid]:lg:mb-8 ">
+        <ul class="flex flex-col text-center gap-2 
+            supports-[display:grid]:md:flex-row supports-[display:grid]:md:justify-end supports-[display:grid]:gap-separator-30">
+            <li><a [routerLink]="'area-legal/privacidad'">Política de privacidad</a></li>
+            <li><a [routerLink]="'area-legal/aviso-legal'">Aviso legal</a></li>
+            <li><a [routerLink]="'area-legal/cookies'">Política de cookies</a></li>
+            <li><a [routerLink]="'area-legal/creditos'">Créditos</a></li>
+        </ul>
+    </nav>
+    <nav class="p-6 items-center
+        supports-[display:grid]:md:flex supports-[display:grid]:md:justify-end  
+        supports-[display:grid]:md:border-b-2 supports-[display:grid]:md:border-secundary-500
+        supports-[display:grid]:col-start-2 supports-[display:grid]:col-span-2">
+        <ul class="flex flex-row justify-center gap-6">
+            
+            <li><a class="button-icon icon-m" href="/"><fa-icon [icon]="iconFacebook"></fa-icon></a></li>
+            <li><a class="button-icon icon-m" href="/"><fa-icon [icon]="iconTwitter"></fa-icon></a></li>
+            <li><a class="button-icon icon-m" href="/"><fa-icon [icon]="iconInstagram"></fa-icon></a></li>
+            <li><a class="button-icon icon-m" href="/"><fa-icon [icon]="iconLinkedin"></fa-icon></a></li>
+        </ul>
+    </nav>
+    <p class="text-xs text-center 
+        supports-[display:grid]:md:mt-auto supports-[display:grid]:md:ml-6 supports-[display:grid]:md:pb-6 
+        supports-[display:grid]:md:col-start-1 supports-[display:grid]:md:row-start-2 supports-[display:grid]:md:text-start 
+        lg:mb-8">
+        Janna. 2024. Todos los derechos reservados.
+    </p>
+</footer>

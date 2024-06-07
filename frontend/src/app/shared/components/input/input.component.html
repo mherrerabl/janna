@@ -1,0 +1,106 @@
+<div class="group relative w-full {{ dataInput.type === 'search' ? 'mb-0' :'[&:not(:has(+div>.error))]:mb-6'}}">
+  @if (dataInput.iconLeft !== undefined) {
+    @switch (dataInput.iconLeft) {
+      @case ('email') {
+        <span class="peer icon-left"><fa-icon [icon]="iconEmail"></fa-icon></span>
+      }
+
+      @case ('phone') {
+        <span class="peer icon-left"><fa-icon [icon]="iconPhone"></fa-icon></span>
+      }
+
+      @case ('search') {
+        <span class="peer icon-left"><fa-icon [icon]="iconSearch"></fa-icon></span>
+      }
+    }
+  }
+
+  @if (dataInput.type !== 'select' && dataInput.type !== 'checkbox') {
+    <label [for]="dataInput.id" class="{{dataInput.type === 'search' ? 'label-s' : 'label'}}">
+      {{ dataInput.label }} 
+      <span *ngIf="dataInput.required">*</span>
+    </label>
+  }
+ 
+  @if (dataInput.type === 'textarea') {
+    <textarea [id]="dataInput.id" class="input min-h-64 pt-4 [&+.icon-right]:top-[1.65rem]" 
+      [placeholder]="dataInput.placeholder" 
+      [required]="dataInput.required" 
+      [formControl]="dataInput.formControl"></textarea>
+  }
+
+  @else if (dataInput.type === 'select') {
+   
+    <label class="sr-only" [for]="dataInput.id">{{dataInput.label}}</label>
+    <span class="icon-right" aria-hidden="true"><fa-icon [icon]="expandSelect ? iconArrowUp : iconArrowDown"></fa-icon></span>
+    <select [id]="dataInput.id" class="select border-0 border-b text-darkGrey cursor-pointer" 
+    [required]="dataInput.required" 
+    [title]="dataInput.label" 
+    [formControl]="dataInput.formControl"
+    (click)="toogleSelect()">
+      <option class="option" value="null" selected disabled>{{dataInput.label}}</option>
+      @for (option of dataInput.options; track $index) {
+        <option class="option cursor-pointer" [value]="option.id" [disabled]="option.disabled">{{ option.name }}</option>
+      }
+    </select>
+  }
+
+  @else if (dataInput.type === 'checkbox') {
+    <label [for]="dataInput.id" class="flex items-center cursor-pointer">
+        <input [id]="dataInput.id" class="w-4 h-4 mr-2 border-2 accent-secundary-500 focus:ring-2 focus:ring-secundary-500"
+        [class.invalid:ring-2]="checkForm" [class.invalid:ring-error-500]="checkForm" 
+        type="checkbox" 
+        [required]="dataInput.required" 
+        [formControl]="dataInput.formControl">
+    
+      <span [innerHTML]="dataInput.label | sanitizeHtml"></span>
+    </label>
+    
+  }
+
+  @else if (dataInput.type === 'date') {
+    
+      <input [id]="dataInput.id" class="input" matInput 
+      [matDatepickerFilter]="myFilter" 
+      [matDatepicker]="datepicker" 
+      [placeholder]="dataInput.placeholder" 
+      [required]="dataInput.required" 
+      [formControl]="dataInput.formControl"
+      [min]="currentDay"
+      >
+      <mat-datepicker-toggle class="absolute right-[15px] top-1/2 -translate-y-1/2" matSuffix [for]="datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #datepicker></mat-datepicker>
+  }
+
+  @else {
+    <input [id]="dataInput.id" class="input {{dataInput.type === 'search' ? 'h-10' : ''}}" 
+    [type]="hidePassword ? dataInput.type : 'text'" 
+    [placeholder]="dataInput.placeholder" 
+    [required]="dataInput.required" 
+    [formControl]="dataInput.formControl">
+  }
+  
+  @if (dataInput.iconRight !== undefined) {
+    @switch (dataInput.iconRight) {
+      @case ('calendar') {
+        <span class="icon-right"><fa-icon [icon]="iconCalendar"></fa-icon></span>
+      }
+
+      @case ('password') {
+        <button type="button" class="icon-right" (click)="toogleIconPassword()">
+          <fa-icon [icon]="hidePassword ? iconEyeSlash : iconEye"></fa-icon>
+        </button>
+      }
+    }
+  }
+</div>
+
+@if (checkForm) {
+  <div class="flex flex-col">
+    @for (error of dataInput.errors; track $index; let last = $last) {
+      @if (dataInput.formControl.hasError(error.type)) {
+        <small class="error px-4 py-2 body-s text-error-500 last:mb-6">{{ error.message }}</small>
+      }
+    }
+  </div>
+}

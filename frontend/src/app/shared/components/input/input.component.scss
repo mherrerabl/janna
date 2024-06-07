@@ -1,0 +1,76 @@
+.label {
+    @apply absolute left-4 translate-y-4 transition text-darkGrey bg-lightGrey z-30
+    peer-[.icon-left]:left-11
+    group-hover:[&:not(&:has(~.input:focus))]:text-secundary-600 
+    group-hover:[&:not(&:has(~.input:valid))]:text-secundary-600 
+    has-[~.input:focus]:text-secundary-700 has-[~.input:focus]:-translate-x-1 has-[~.input:focus]:-translate-y-2/4 has-[~.input:focus]:px-1
+    peer-[.icon-left]:has-[+.input:focus]:-translate-x-8
+    has-[+.input:not(:placeholder-shown)]:-translate-x-1 has-[+.input:not(:placeholder-shown)]:-translate-y-2/4 has-[+.input:not(:placeholder-shown)]:px-1
+    peer-[.icon-left]:has-[~.input:valid:not(:placeholder-shown)]:-translate-x-8;
+}
+
+.label-s {
+    @apply absolute left-4 top-0 translate-y-1/2 transition text-darkGrey bg-lightGrey 
+    peer-[.icon-left]:left-12
+    group-hover:[&:not(&:has(~.input:focus))]:text-secundary-600 
+    group-hover:[&:not(&:has(~.input:valid))]:text-secundary-600 
+    has-[~.input:focus]:hidden
+    has-[~.input:not(:placeholder-shown)]:hidden;
+}
+
+.input {
+    @apply w-full h-14 px-4 border-b border-darkGrey bg-lightGrey placeholder:opacity-0 transition-[border] duration-150 ease-in-out 
+    has-[~.icon-right]:pr-11
+    peer-[.icon-left]:pl-11
+    group-hover:border-secundary-600 
+    focus:border-2 focus:border-secundary-700 focus:outline-none focus:placeholder:opacity-100
+    [&:not(:placeholder-shown)]:border
+}
+
+.select {
+    @apply w-full h-14 px-4 border-0 border-b border-darkGrey bg-lightGrey text-start 
+    has-[~.icon-right]:pr-11
+    peer-[.icon-left]:pl-11
+    group-hover:border-secundary-600 group-hover:text-secundary-600 
+    focus-visible:border-2 focus-visible:border-secundary-700 focus-visible:text-secundary-700
+    
+}
+
+.option {
+    @apply px-4 py-2 bg-lightGrey text-black cursor-pointer
+    hover:bg-secundary-600 hover:text-white
+    active:bg-secundary-700 active:text-white
+    focus-visible:bg-secundary-700 focus-visible:text-white
+    disabled:bg-secundary-100 disabled:text-secundary-400
+    last:border-b last:border-secundary-700;
+
+}
+
+.icon-left {
+    @apply absolute left-0 top-2/4 pl-4 text-darkGrey -translate-y-2/4 has-[~textarea]:top-[1.65rem]
+    group-hover:[&:not(&:has(~.input:focus))]:text-secundary-600 
+    group-hover:[&:not(&:has(~.input:valid))]:text-secundary-600 
+    has-[~.input:focus]:text-secundary-700;;
+}
+
+.icon-right {
+    @apply absolute right-0 top-2/4 pr-4 text-darkGrey -translate-y-2/4
+    group-hover:[&:not(&:has(~.input:focus))]:text-secundary-600 
+    group-hover:[&:not(&:has(~.input:valid))]:text-secundary-600 
+    has-[~.input:focus]:text-secundary-700;
+}
+
+form.ng-touched.ng-submitted {
+    .label:has(+input.ng-invalid) {
+        @apply text-error-500;
+    }
+
+    .input.ng-invalid {
+        @apply border-2 border-error-500;
+    }
+
+    .select.ng-invalid {
+        @apply border-2 border-error-500;
+    }
+}
+

@@ -1,0 +1,27 @@
+<div class="flex flex-wrap {{header === false ? 'gap-6 md:gap-12 justify-around md:justify-end' : 'sm:gap-12 justify-between md:justify-start'}}" 
+>
+    <a class="button-link flex align-middle" [class.button-icon]="header"
+        href="mailto:mherrerabltest@gmail.com" 
+        aria-label="Correo electrónico">
+        <span class="icon-l mr-2">
+            <fa-icon [icon]="iconEmail"></fa-icon>
+        </span>
+        <span [class.hidden]="header" [class.lg:block]="header">janna&#64;gmail.com</span>
+    </a>
+    <a class="button-link flex align-middle" [class.button-icon]="header"
+        href="tel:+34638242560" 
+        aria-label="Teléfono de contacto">
+        <span class="icon-m mr-2">
+            <fa-icon [icon]="iconPhone"></fa-icon>
+        </span>
+        <span [class.hidden]="header" [class.lg:block]="header">666666666</span>
+    </a>
+    <a class="button-link flex align-middle" [class.button-icon]="header"
+        href="https://wa.me/34638242560" 
+        aria-label="Whatsapp de contacto">
+        <span class="icon-l mr-2">
+            <fa-icon [icon]="iconWhatsapp"></fa-icon>
+        </span>
+        <span [class.hidden]="header" [class.lg:block]="header">666666666</span>
+    </a>
+</div>

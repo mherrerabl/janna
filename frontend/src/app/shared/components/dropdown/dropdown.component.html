@@ -1,0 +1,16 @@
+<button class="button-expand w-full h4 flex justify-between p-4 " 
+    (click)="dropdownExpanded = !dropdownExpanded">
+    {{dataDropdown.title}}
+    <span class="align-middle"><fa-icon [icon]="dropdownExpanded ? iconArrowUp : iconArrowDown"></fa-icon></span>
+</button>
+<div class="overflow-hidden">
+    <div class="flex flex-col" [@detailExpand]="dropdownExpanded ? 'expanded' : 'collapsed'">
+        <div class="bg-primary">
+            <ul class="">
+                @for (data of dataDropdown.list; track $index) {
+                    <li><a class="button-expand block p-4" [routerLink]="data.link">{{data.name}}</a></li>
+                }
+        </ul>
+        </div>
+    </div> 
+</div>

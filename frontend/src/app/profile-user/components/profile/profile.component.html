@@ -1,0 +1,46 @@
+<app-breadcrumbs (emitTitle)="receiveBreadcrumb($event)"></app-breadcrumbs>
+
+
+<div class="mb-separator-50">
+    <div class="flex justify-between p-4 transition-colors" [class.bg-primary]="dropdownExpanded  && innerWidth < 768">
+        <h1>{{title}}</h1>
+        <button class="button-icon icon-m mr-3 lg:hidden" (click)="dropdownExpanded = !dropdownExpanded">
+            <fa-icon [icon]="iconBars"></fa-icon>
+        </button>
+    </div>
+    
+    <div class="overflow-hidden lg:hidden">
+        <div class="flex flex-col" [@detailExpand]="dropdownExpanded ? 'expanded' : 'collapsed'">
+            <nav class="bg-primary">
+                <ul class="">
+                    @for (data of dataDropdown.list; track $index) {
+                        <li>
+                            <a class="button-expand block p-4" 
+                                [routerLink]="data.link" 
+                                [routerLinkActive]="['button-expand-active']"
+                                (click)="dropdownExpanded = !dropdownExpanded">
+                                {{data.name}}
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div> 
+    </div>
+    <nav>
+        <ul class="hidden lg:flex w-full px-4">
+            @for (data of dataDropdown.list; track $index) {
+                <li class="w-full text-center">
+                    <a class="button-expand block p-4" 
+                        [routerLink]="data.link" 
+                        [routerLinkActive]="['button-expand-active']">
+                        {{data.name}}
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+
+<router-outlet></router-outlet>

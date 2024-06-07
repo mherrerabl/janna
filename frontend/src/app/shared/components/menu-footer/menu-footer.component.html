@@ -1,0 +1,56 @@
+<nav class="fixed bottom-0 flex justify-center w-full p-3 m-auto bg-primary shadow-menu-footer z-1000">
+    <ul class="flex flex-row justify-between h-full w-full max-w-limit-600">
+        <li>
+            <a [routerLink]="'agenda'" class="button-icon flex flex-col justify-between w-full min-w-8 sm:w-16 h-full items-center text-xxs">
+                <app-icon-calendar class="mt-1"></app-icon-calendar>
+                Agenda
+            </a>
+        </li>
+        <li>
+            <a [routerLink]="'tratamientos'" class="button-icon flex flex-col justify-between w-full min-w-8 sm:w-16 h-full items-center text-xxs">
+                <app-icon-treatment class="mt-1"></app-icon-treatment>
+                Tratamientos
+            </a>
+        </li>
+        <li>
+            <a [routerLink]="'tienda'" class="button-icon flex flex-col justify-between w-full min-w-8 sm:w-16 h-full items-center text-xxs">
+                <app-icon-shop class="mt-1"></app-icon-shop>
+                Tienda
+            </a>
+        </li>
+
+        @if (isLogin) {
+            <li>
+                <a [routerLink]="'perfil'" class="button-icon flex flex-col justify-between w-full min-w-8 sm:w-16 h-full items-center text-xxs">
+                    <app-icon-user class="mt-1"></app-icon-user>
+                    Perfil
+                </a>
+            </li>
+            <li>
+                <button class="button-icon relative flex flex-col justify-between w-full min-w-8 sm:w-16 h-full items-center text-xxs"
+                (click)="openCart()">
+                    <app-icon-cart class="mt-1"></app-icon-cart>
+                    Carrito <span *ngIf="countProducts > 0" class="absolute right-[15%] bottom-[25%] leading-100 p-1 border rounded-full bg-secundary-700 text-s text-white">{{ countProducts }}</span>
+                </button>
+            </li>
+        }
+        
+        @else {
+            <li>
+                <button class="button-icon flex flex-col justify-between w-full min-w-8 sm:w-16 h-full items-center text-xxs"
+                    (click)="openRegister()">
+                    <app-icon-register class="mt-1"></app-icon-register>
+                    Registrarse
+                </button>
+            </li>
+            <li>
+                <button class="button-icon flex flex-col justify-between w-full min-w-8 sm:w-16 h-full items-center text-xxs" 
+                    (click)="openLogin()">
+                    <app-icon-login class="mt-1"></app-icon-login>
+                    Iniciar sesión
+                </button>
+            </li>
+        }
+    </ul>
+</nav>
+

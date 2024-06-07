@@ -1,0 +1,26 @@
+@if (dataBadge.isButtonText) {
+    <button class="inline-block px-2 {{dataBadge.textSize}} z-40"
+            [class.badge-disable]="dataBadge.stock == 0" 
+            [class.badge-clickable]="dataBadge.stock != 0 && !isSelected" 
+            [class.badge-active]="dataBadge.stock != 0 && isSelected" 
+            (click)="clicked()"
+            [disabled]="dataBadge.stock == 0">
+        {{ dataBadge.name }}
+    </button>
+}
+
+@else if (dataBadge.isButtonColor) {
+    <button class="w-[32px] h-[32px] z-40" 
+            [class.badge-disable]="dataBadge.stock == 0" 
+            [class.badge-clickable]="dataBadge.stock != 0 && !isSelected" 
+            [class.badge-active]="dataBadge.stock != 0 && isSelected" 
+            [style.background-color]="dataBadge.color" 
+            (click)="clicked()" 
+            [disabled]="dataBadge.stock == 0">
+    </button>
+}
+
+@else {
+    <span class="inline-block px-2 text-white {{badgeInfoColor()}} {{dataBadge.textSize }} z-40">{{ dataBadge.name }}</span>
+
+}

@@ -1,0 +1,87 @@
+<form [formGroup]="form" class="mb-6 lg:max-w-[500px]">
+    <div class="group relative w-full">
+        <span class="peer icon-left"><fa-icon [icon]="iconSearch"></fa-icon></span>
+        <label for="searcherProfile" class="label">Buscar</label>
+        <input id="searcherProfile" class="input" type="searcher" placeholder="Busca..." [formControl]="searcherControl" (keyup)="filter()">
+      </div>
+</form>
+@if (dataTable) {
+<table class="w-full border-collapse table-fixed">
+    <thead class="h-14 bg-primary">
+        <tr>
+            <th class="opacity-0 w-10 max-w-10 overflow-hidden">Expanded</th>
+            @for (title of dataTable.titles; track $index;) {
+                <th class="text-start {{ title.smallScreens ? 'table-cell' : 'hidden md:table-cell'}} {{ title.title === 'id' ?'w-1/2': 'w-full'}}">
+                    <button class="button-icon h6" (click)="sort($index)">
+                        <span><fa-icon [icon]="iconSort"></fa-icon></span>
+                        {{ title.title }}
+                    </button>
+                   
+                </th>
+            }
+            
+            @if (dataTable.action) {
+                <th class="w-1/2 md:w-full max-w-8 pr-4 md:px-16 text-end">
+                    <a class="button-icon icon-m md:icon-l" [routerLink]="'nuevo'">
+                        <fa-icon [icon]="iconPlus"></fa-icon>
+                    </a>
+                </th>
+            }
+            
+        </tr>
+    </thead>
+    <tbody>
+        @for (row of dataTable.rows| paginate: { itemsPerPage: 5, currentPage: currentPage }; track row; let index = $index;) {
+            <tr class="button-icon text-black h-12 border-primary" 
+                [class.border-b]="expandedElement !== row" 
+                [tabindex]="index">
+                <td class="max-w-2 cursor-pointer" 
+                    (click)="expandedElement = expandedElement === row ? null : row">
+                    <span class="block text-center align-middle">
+                        <fa-icon [icon]="expandedElement ? iconArrowUp : iconArrowDown"></fa-icon>
+                    </span>
+                </td>
+                @for (content of row.rowInfo; track content; let i = $index) {
+                    <td class="cursor-pointer {{ dataTable.titles[i].smallScreens ? 'table-cell' : 'hidden md:table-cell'}}" 
+                        (click)="expandedElement = expandedElement === row ? null : row">
+                        {{ content }}
+                    </td>
+                }
+                @if (dataTable.action) {
+                    <td class="max-w-8">
+                        <div class="flex md:px-10 justify-end">
+                            <a class="button-icon icon-s md:icon-m {{dataTable.bd !=='appointment' ? 'mx-2' : 'mx-5'}}" [routerLink]="'editar/'+row.id">
+                                <fa-icon [icon]="iconEdit"></fa-icon>
+                            </a>
+                            @if (dataTable.bd !=='appointment') {
+                                <button class="mx-2 button-icon icon-s md:icon-m" (click)="delete(row.id)">
+                                    <fa-icon [icon]="iconDelete"></fa-icon>
+                                </button>
+                            }
+                           
+                        </div>
+                    </td>
+                }
+                
+            </tr>
+            <tr>
+                <td [attr.colspan]="dataTable.titles.length+2" class="overflow-hidden table-cell">
+                    <div [@detailExpand]="row === expandedElement ? 'expanded' : 'collapsed'">
+                        <app-row-detail [dataDetails]="row.detail"></app-row-detail>
+                    </div>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+<div class="flex justify-center mt-8">
+<pagination-controls 
+    (pageChange)="currentPage = $event" 
+    previousLabel=""
+    nextLabel=""
+    [maxSize]="5" 
+>
+</pagination-controls>
+</div>

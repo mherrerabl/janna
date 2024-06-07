@@ -1,0 +1,125 @@
+<app-breadcrumbs></app-breadcrumbs>
+<h1 class="mb-2">{{ product.name }}</h1>
+<h4 class="mb-separator-30">{{ product.brand }}</h4>
+
+<section class="flex flex-col md:flex-row md:gap-4 mb-separator-50">
+    <div class="md:w-1/2">
+        <swiper-container navigation="true" scrollbar="true">
+            @for (image of product.images; track $index) {
+             <swiper-slide>
+                 <picture class="relative block overflow-hidden w-full h-full min-h-[300px]">                 
+                     <source [srcset]="'data:image/jpg;base64,'+image.picture_webp" type="image/webp">
+                     <img class="absolute object-cover object-center w-full h-full" 
+                         [src]="'data:image/jpg;base64,'+image.picture_jpg" 
+                         [alt]="image.title">
+                 </picture>
+             </swiper-slide>
+            }
+         </swiper-container>
+    </div>
+    
+    <div>
+        <p class="my-separator-30 md:mt-0">{{ product.description }}</p>
+
+        <div class="flex justify-between mb-separator-30">
+            <app-counter [counter]="counter" [stock]="product.stock" (newCounterValue)="changeQuantity($event)"></app-counter> 
+
+            <div class="flex justify-end gap-[10px] mb-4">
+                @if (product.price?.discount !== null) {
+                    <p class="body-s line-through text-darkGrey self-end">{{ product.price?.price | number: '1.2-2':'es'}} €/u</p>
+                } @else {
+                    <p class="body-s text-darkGrey self-end">{{ product.price?.price | number: '1.2-2':'es'}} €/u</p>
+                }
+                <h4>{{ getPrice() | number: '1.2-2':'es' }} €</h4>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-[10px] sm:flex-nowrap sm:fustify-between sm:justify-center md:justify-end">
+            <button class="button button-s w-full max-w-full sm:max-w-[250px]" [disabled]="product.stock <=0 || user.id === ''" (click)="addProduct()">Añadir a la cesta</button>
+            <button class="button-action button-s w-full max-w-full sm:max-w-[250px]" [disabled]="product.stock<=0 || user.id === '' || true">Comprar ya</button>
+        </div>
+    </div>
+</section>
+
+<section class=" mb-separator-50">
+    <div>
+        <button class="button-expand w-full h4 flex justify-between p-4 " 
+            (click)="dropdown('routine')">
+            Paso de la rutina
+            <span class="align-middle">
+                <fa-icon [icon]="dropdownExpandedRoutine ? iconArrowUp : iconArrowDown"></fa-icon>
+            </span>
+        </button>
+        <div class="overflow-hidden">
+            <div class="flex flex-col" [@detailExpand]="dropdownExpandedRoutine ? 'expanded' : 'collapsed'">
+                <div class="flex flex-wrap justify-start xl:justify-between bg-primary p-4">
+                    <app-icon-routine-1 class="routine" [class.active]="checkRoutine('Desmaquillante')"></app-icon-routine-1>
+                    <app-icon-routine-2 class="routine" [class.active]="checkRoutine('Limpiador')"></app-icon-routine-2>
+                    <app-icon-routine-3 class="routine" [class.active]="checkRoutine('Exfoliante')"></app-icon-routine-3>
+                    <app-icon-routine-4 class="routine" [class.active]="checkRoutine('Tónico')"></app-icon-routine-4>
+                    <app-icon-routine-5 class="routine" [class.active]="checkRoutine('Mascarilla')"></app-icon-routine-5>
+                    <app-icon-routine-6 class="routine" [class.active]="checkRoutine('Esencia')"></app-icon-routine-6>
+                    <app-icon-routine-7 class="routine" [class.active]="checkRoutine('Sérum')"></app-icon-routine-7>
+                    <app-icon-routine-8 class="routine" [class.active]="checkRoutine('Contorno de ojos')"></app-icon-routine-8>
+                    <app-icon-routine-9 class="routine" [class.active]="checkRoutine('Hidratante')"></app-icon-routine-9>
+                    <app-icon-routine-10 class="routine" [class.active]="checkRoutine('Protector solar')"></app-icon-routine-10>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <div cl>
+        <button class="button-expand w-full h4 flex justify-between p-4 " 
+            (click)="dropdown('benefits')">
+            Cómo se utiliza
+            <span class="align-middle">
+                <fa-icon [icon]="dropdownExpandedBenefits ? iconArrowUp : iconArrowDown"></fa-icon>
+            </span>
+        </button>
+        <div class="overflow-hidden">
+            <div class="flex flex-col" [@detailExpand]="dropdownExpandedBenefits ? 'expanded' : 'collapsed'">
+                <div class="bg-primary p-4">
+                    <p>{{ product.use}}</p>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <div>
+        <button class="button-expand w-full h4 flex justify-between p-4 " 
+            (click)="dropdown('use')">
+            Beneficios
+            <span class="align-middle">
+                <fa-icon [icon]="dropdownExpandedUse ? iconArrowUp : iconArrowDown"></fa-icon>
+            </span>
+        </button>
+        <div class="overflow-hidden">
+            <div class="flex flex-col" [@detailExpand]="dropdownExpandedUse ? 'expanded' : 'collapsed'">
+                <div class="bg-primary p-4">
+                    <p>{{ product.benefits}}</p>
+                </div>
+            </div> 
+        </div>
+    </div>
+</section>
+
+@if (productsRelated.length > 0) {
+    <section>
+        <h3 class="mb-separator-30">Productos relacionados</h3>
+        <swiper-container navigation="true" scrollbar="true" space-between="30" [breakpoints]="breakpoints">
+            @for (product of productsRelated; track $index) {
+               <swiper-slide>
+                <a class="button-icon group relative flex flex-col w-full h-full " [routerLink]="['../',product.id]">
+                    @if (product.images !== undefined) {
+                        <picture class="relative block overflow-hidden w-full h-32 sm:h-40 md:h-52 xl:h-64">                 
+                            <source [srcset]="'data:image/webp;base64,'+product.images[0].picture_webp" type="image/webp">
+                            <img class="absolute object-cover object-center w-full h-full" [src]="'data:image/jpg;base64,'+product.images[0].picture_jpg" [alt]="product.images[0].title">
+                        </picture>
+                    }
+                    <p class="subtitle-m py-2">{{ product.brand | uppercase}}</p>
+                    <h4 class="flex-auto">{{ product.name }}</h4>
+                </a>
+               </swiper-slide>
+                
+            }
+        </swiper-container>
+    </section>
+}

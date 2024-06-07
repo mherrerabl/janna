@@ -1,0 +1,85 @@
+<header class="container">
+    <div class="h-14 flex justify-between items-center">
+        <app-contact-links class="w-full pl-4 pr-1 md:w-fit" [header]="true"></app-contact-links>
+        <div class="hidden md:flex md:items-center md:gap-10">
+            @if (isLogin) {
+                <a class="button-icon inline-flex items-center" [routerLink]="'perfil'">
+                    <app-icon-user class="w-9"></app-icon-user>
+                    Perfil
+                </a>
+                <button class="button-icon inline-flex items-center" (click)="logout()">
+                    <app-icon-logout class="w-9"></app-icon-logout>
+                    Cerrar sesión
+                </button>
+            }
+            
+            @else {
+                <button class="button-icon inline-flex items-center" (click)="openRegister()">
+                    <app-icon-register class="w-9"></app-icon-register>
+                    Registrarse
+                </button>
+
+                <button class="button-icon inline-flex items-center" (click)="openLogin()">
+                    <app-icon-login class="w-9"></app-icon-login>
+                    Iniciar sesión
+                </button>
+           }
+        </div>
+    </div>
+
+    <div class="flex sm:gap-6 justify-between my-6">
+        <app-logo></app-logo>
+
+        <div class="w-0 lg:w-full xl:w-1/2" aria-hidden="true"></div>
+
+        @if (showSearcher && innerWidth >= 768) {
+            <form class="flex justify-end items-center w-full max-w-[400px]">
+                <app-input class="w-full" [dataInput]="input" [checkForm]="false"></app-input>   
+            </form>
+        }
+        
+        <div class="flex">
+            <button class="button-icon icon-l mr-3 xl:hidden" (click)="openMenu()">
+                <fa-icon [icon]="iconBars"></fa-icon>
+            </button>
+            <nav class="hidden xl:block m-auto">
+                <ul class="flex align-middle gap-10">
+                    <li class="py-2">
+                        <a class="button-icon inline-flex items-center" [routerLink]="'agenda'">
+                            <app-icon-calendar class="w-9"></app-icon-calendar>
+                            Agenda
+                        </a>
+                    </li>
+                    <li class="py-2">
+                        <a class="button-icon inline-flex items-center" [routerLink]="'tratamientos'">
+                            <app-icon-treatment class="w-9"></app-icon-treatment>
+                            Tratamientos
+                        </a>
+                    </li>
+                    <li class="py-2">
+                        <a class="button-icon inline-flex items-center" [routerLink]="'tienda'">
+                            <app-icon-shop class="w-9"></app-icon-shop>
+                            Tienda
+                        </a>
+                    </li>
+                    <li class="py-2">
+                        <button class="button-icon relative inline-flex items-center" (click)="openCart()">
+                            <app-icon-cart class="w-9"></app-icon-cart>
+                            Carrito
+                            <span *ngIf="countProducts > 0" 
+                                class="absolute left-[-5%] bottom-[-25%] leading-100 px-1 border rounded-full bg-secundary-700 text-s text-white">
+                                {{ countProducts }}
+                            </span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    @if (showSearcher && innerWidth < 768) {
+        <form class="w-full my-6">
+            <app-input class="w-full" [dataInput]="input" [checkForm]="false"></app-input>   
+        </form>
+    }
+</header>

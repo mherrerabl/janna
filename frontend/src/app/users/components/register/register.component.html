@@ -1,0 +1,62 @@
+<div *ngIf="showRegister$ | async as showRegister">
+    <div class="block fixed top-0 left-0 right-0 bottom-0 bg-darkGrey/40 transition-opacity z-[9000]" 
+        [class.invisible]="showRegister === 'close'"  
+        [class.opacity-0]="showRegister === 'close'" 
+        [class.visible]="showRegister === 'open'"  
+        [class.opacity-1]="showRegister === 'open'" 
+        [class.modal]="showRegister === 'open'"
+        (click)="closeRegister()">
+        <div (click)="$event.stopPropagation()">
+            <div class="modal-center">
+                <button class="icon-xl button-icon h-[65px] flex justify-end w-full mr-2" (click)="closeRegister()">
+                    <fa-icon [icon]="iconClose"></fa-icon>
+                </button>
+                
+                <h2 class="text-center">Registrarse</h2>
+                @if(showFeedback) {
+                    <div class="bg-primary p-4 mb-6">
+                        <p id="registerFeedback"></p>
+                    </div>
+                }
+
+                @if(showErrorFeedback) {
+                    <div class="text-error-500 p-4 mb-6">
+                        <p>El correo electrónico ya exite.</p>
+                    </div>
+                }
+
+                <form class="mb-separator-30" 
+                    [formGroup]="registerForm" 
+                    (ngSubmit)="register()"
+                >
+                    <div class="flex flex-wrap">
+                        <app-input class="w-full md:w-1/2 md:pr-3" [dataInput]="inputsForm[0]" [checkForm]="checkForm"></app-input>
+                        <app-input class="w-full md:w-1/2 md:pr-3"  [dataInput]="inputsForm[1]" [checkForm]="checkForm"></app-input>
+                    </div>
+                    <app-input [dataInput]="inputsForm[2]" [checkForm]="checkForm"></app-input>
+                    <app-input [dataInput]="inputsForm[3]" [checkForm]="checkForm"></app-input>
+                    <app-input [dataInput]="inputsForm[4]" [checkForm]="checkForm"></app-input>
+
+                    <label for="keepLoginRegister" class="flex items-center cursor-pointer mb-6">
+                        <input id="keepLoginRegister" class="w-4 h-4 mr-2 border-2 accent-secundary-500 focus:ring-2 focus:ring-secundary-500"
+                        [class.invalid:ring-2]="checkForm" [class.invalid:ring-error-500]="checkForm" 
+                        type="checkbox" 
+                        required="false" 
+                        [formControl]="checkLogin"
+                        (change)="getKeepLogin()">
+                    
+                      <span>Mantener iniciada la sesión</span>
+                    </label>
+
+                    <div>
+                        <button class="button button-m min-w-full px-6" type="submit">Enviar</button>
+                    </div>     
+                </form>
+                <div>
+                    <p class="inline">¿Ya tienes una cuenta?</p> 
+                    <button class="button-link inline ml-2" (click)="openLogin()">Iniciar sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

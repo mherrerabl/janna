@@ -1,0 +1,8 @@
+
+<a class="group relative flex flex-col w-full h-full " [routerLink]="dataCard.url">
+    <picture class="relative block overflow-hidden w-full h-32 sm:h-40 md:h-52 xl:h-64">                 
+        <source [srcset]="'data:image/webp;base64,'+dataCard.image.picture_webp" type="image/webp">
+        <img class="absolute object-cover object-center w-full h-full" [src]="'data:image/jpg;base64,'+dataCard.image.picture_jpg" [alt]="dataCard.image.title">
+    </picture>
+    <h4 class="flex-auto flex justify-center items-center py-4 px-2 text-center bg-grey card-simple-title">{{ dataCard.title }}</h4>
+</a>

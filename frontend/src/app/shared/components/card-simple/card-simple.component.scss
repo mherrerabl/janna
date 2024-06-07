@@ -1,0 +1,5 @@
+.card-simple-title {
+    @apply  group-hover:bg-secundary-500 group-hover:text-white
+    group-active:bg-secundary-700 group-active:text-white
+    group-focus-within:bg-secundary-700 group-focus-within:text-white;
+}

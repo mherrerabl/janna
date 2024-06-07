@@ -1,0 +1,33 @@
+
+@if(showFeedback) {
+    <div class="bg-primary p-4 mb-6">
+        <p id="appointmentFeedback"></p>
+    </div>
+}
+
+@if(showErrorFeedback) {
+    <div class="text-error-500 p-4 mb-6">
+        <p>Ha surgido un error, intentelo más tarde.</p>
+    </div>
+}
+
+<form class="mb-separator-30" 
+    [formGroup]="appointmentForm" 
+    (ngSubmit)="sendForm()"
+>
+    
+    <app-input [dataInput]="inputsForm[0]" [checkForm]="checkForm"></app-input>
+    @if (treatmentOptions.length > 1) {
+        <app-input [dataInput]="inputsForm[1]" [checkForm]="checkForm"></app-input>
+    }    
+    <app-input [dataInput]="inputsForm[2]" [checkForm]="checkForm"></app-input>
+    @if (dateSelected) {
+        <app-input [dataInput]="inputsForm[3]" [checkForm]="checkForm"></app-input>
+    }
+   
+       
+
+    <div class="flex justify-center">
+        <button class="button button-m px-6" type="submit">Reservar cita</button>
+    </div>     
+</form>

@@ -1,0 +1,45 @@
+<app-breadcrumbs></app-breadcrumbs>
+<section class="m-auto px-4 max-w-[800px]">
+    <div class="flex justify-between align-middle mb-separator-50">
+        <h2 class="mb-0">{{ title }}</h2>
+        <button class="button-link" (click)="routeService.back()">Atrás</button>
+    </div>
+    
+    @if(showFeedback) {
+        <div class="bg-primary p-4 mb-6">
+            <p id="addressFeedback"></p>
+        </div>
+    }
+
+    @if(showErrorFeedback) {
+        <div class="text-error-500 p-4 mb-6">
+            <p>Ha surgido un error, intentelo más tarde.</p>
+        </div>
+    }
+
+    <form class="mb-separator-30" 
+        [formGroup]="addressForm" 
+        (ngSubmit)="sendForm()"
+    >
+        @for (input of inputsForm; track $index) {
+            <app-input [dataInput]="input" [checkForm]="checkForm"></app-input>
+        }
+
+        <label for="predeterminedAddress" class="flex items-center cursor-pointer mb-6">
+            <input id="predeterminedAddress" class="w-4 h-4 mr-2 border-2 accent-secundary-500 focus:ring-2 focus:ring-secundary-500"
+            [class.invalid:ring-2]="checkForm" [class.invalid:ring-error-500]="checkForm" 
+            type="checkbox" 
+            required="false" 
+            [formControl]="predetermined"
+            (change)="getIsPredetermined()">
+        
+          <span>Marcar esta dirección como predeterminada</span>
+        </label>
+
+        <div class="flex justify-center">
+            <button class="button button-m px-6" type="submit">Actualizar</button>
+        </div>     
+    </form>
+  
+</section>
+  

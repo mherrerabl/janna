@@ -1,0 +1,30 @@
+<app-breadcrumbs></app-breadcrumbs>
+<h1 class="mb-separator-50">Agenda</h1>
+<div class="flex justify-center gap-4 mb-section">
+    <button class="button button-m" (click)="showForm = true">Reservar cita</button>
+    <button class="button button-m" (click)="showCalendar = !showCalendar">{{ showCalendar ? 'Ocultar agenda' : 'Mostrar agenda'}}</button>
+</div>
+
+@if (showCalendar) {
+  <app-calendar></app-calendar>
+}
+
+@if (showForm) {
+ 
+  <section class="m-auto max-w-[600px]">
+    <h2 class="text-center">Reservar cita</h2>
+    @if (user.id !== '') {
+      <app-appointment-form></app-appointment-form>
+    } 
+    @else {
+      <div class="text-center">
+        <p>Inicie sesión para resevar su cita.</p>
+        <div class="flex flex-wrap gap-3 justify-center mt-4">
+          <button class="button button-s w-fit px-2" (click)="openRegister()">Registrarse</button>
+          <button class="button button-s w-fit px-2" (click)="openLogin()">Iniciar sesión</button>
+        </div>
+      </div>
+    }
+    
+  </section>
+}

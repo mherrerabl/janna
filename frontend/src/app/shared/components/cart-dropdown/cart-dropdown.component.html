@@ -1,0 +1,42 @@
+<button class="button-expand w-full h4 flex justify-between p-4 " 
+    (click)="dropdownExpanded = !dropdownExpanded">
+    Detalles del pedido 
+    <span class="align-middle"><fa-icon [icon]="dropdownExpanded ? iconArrowUp : iconArrowDown"></fa-icon></span>
+</button>
+<div class="overflow-hidden">
+    <div class="flex flex-col" [@detailExpand]="dropdownExpanded ? 'expanded' : 'collapsed'">
+        <div class="p-4 bg-primary">
+            <h5 class="py-2">Productos</h5>
+            <ul class="p-4 border-b border-black">
+                @for (product of dataProducts; track $index) {
+                    <li class="mb-2">
+                        <div class="flex flex-row items-center justify-between">
+                            <div class="w-full max-w-[75px]">
+                                <picture class="relative block overflow-hidden w-full h-full min-h-[75px]">                 
+                                    <source [srcset]="'data:image/jpg;base64,'+product.image.picture_webp" type="image/webp">
+                                    <img class="absolute object-cover object-center w-full h-full" 
+                                        [src]="'data:image/jpg;base64,'+product.image.picture_jpg" 
+                                        [alt]="product.image.title">
+                                </picture>
+                            </div>
+                            
+                            <p>{{ product.name }}</p>
+
+                            <div class="flex flex-row items-center gap-4">
+                                <p>{{ product.price.price | number: '1.2-2':'es' }} €/u.</p>
+                                <p>x{{ product.quantity }}</p>
+                                <p class="font-medium">{{ product.quantity * product.price.price | number: '1.2-2':'es' }} €</p>
+                            </div>
+                        
+                        </div>
+                    </li>
+                }
+            </ul>
+            
+            <p class="h5 flex justify-between items-baseline p-4 border-b border-black">Subtotal <span class="h5">{{ getSubtotal() | number: '1.2-2':'es' }} €</span></p>
+            <p class="flex justify-between items-baseline p-4 border-b border-black">Gastos de envío <span>{{ getTaxShipment() }}</span></p>
+            <p class="h4 flex justify-between items-baseline p-4 border-b border-black">Total <span class="h6">{{ getTotal() | number: '1.2-2':'es' }} €</span></p>
+        </div>
+        </div>
+        
+</div>

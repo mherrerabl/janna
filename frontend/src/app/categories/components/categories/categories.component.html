@@ -1,0 +1,7 @@
+@if (dataCards.length > 0) {
+    <div class="flex flex-wrap justify-start">
+        @for (card of dataCards; track $index; let last = $last) {
+            <app-card-simple class="px-2 pb-4 flex-col-2 md:flex-col-3 lg:flex-col-4" [dataCard]="card"></app-card-simple>
+        }
+    </div>
+}
