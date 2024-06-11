@@ -59,6 +59,5 @@ registerLocaleData(localeEs);
 export class AppModule {
   constructor() {
     console.log('AppModule loaded.');
-    console.log(!isDevMode());
   }
 }

@@ -79,6 +79,11 @@ class ProductController extends Controller {
 
     
     public function getProductsByTreatmentId($treatmentId){
+        $data = Product::where('trend', 1)->get();
+
+        $newData = $this->getData($data);
+
+        return response()->json($newData, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         $data = Product::where('treatment_id', $treatmentId)->where('forSale', 1)->get();
 
         $newData = $this->getData($data);
