@@ -134,7 +134,6 @@ class CheckoutController extends Controller
                       ); 
                 }
                 
-                $this->orderController->deleteBySessionStripe($request['session_stripe']);
             } 
 
             $checkout_session = $stripe->checkout->sessions->create([
@@ -152,9 +151,14 @@ class CheckoutController extends Controller
             $data['address_id'] = $request['address_id'];
             $data['state'] = 'Pendiente de pago';
             $data['session_id'] = $checkout_session->id;
+ 
 
-            $this->orderController->create($data);
-            
+            if (!empty($request['session_stripe'])){ 
+                $this->orderController->updateBySessionStripe($data, $request['session_stripe']);
+            } else {
+                $this->orderController->create($data);
+            }
+                        
             return json_encode(array('clientSecret' => $checkout_session->client_secret,'session_id' =>  $checkout_session->id));
 
 

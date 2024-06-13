@@ -2,6 +2,7 @@ import { AddressClass } from '../../addresses/models/address';
 import { ProductOrderClass } from './product-order';
 
 export enum StateOrder {
+  'Pendiente de pago' = 'Pendiente de pago',
   'Pago realizado' = 'Pago realizado',
   'En preparación' = 'En preparación',
   'Pendiente de envío' = 'Pendiente de envío',

@@ -69,14 +69,28 @@ class OrderController extends Controller {
     }
 
 
-    public function update(Request $request,$id){
+    public function update($request,$id){
         $data['user_id'] = $request['user_id'];
         $data['total_price'] = $request['total_price'];
+        $data['address_id'] = $request['address_id'] == null ? NULL :  $request['address_id'];
         $data['state'] = $request['state'];
+        $data['session_id'] = $request['session_id'];
+        $data['creation_date'] = date('Y-m-d H:i:s');
         $data['modification_date'] = date('Y-m-d H:i:s');
+
         Order::find($id)->update($data);
 
-        return response()->json($data, 200);
+        for ($i=0; $i < count($request['products']); $i++) { 
+            $product['name'] = $request['products'][$i]['name'];
+            $product['price'] = $request['products'][$i]['price'];
+            $product['quantity'] = $request['products'][$i]['quantity'];
+            $product['state'] = 'En preparación';
+            $product['order_id'] = $id;
+            
+            $this->productOrderController->create($product);
+        }
+
+        return response()->json($data, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
 
@@ -93,19 +107,24 @@ class OrderController extends Controller {
         return response()->json($newData, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);   
     }
 
+    public function updateBySessionStripe($data, $current_session_id) {
+        $order = Order::where('session_id', $current_session_id)->get();
+
+        if ($order[0] !== null) {
+            $this->productOrderController->deleteByOrder($order[0]->id);
+            $this->update($data, $order[0]->id);
+
+            $newData = $this->getData($order)[0];
+       
+            return response()->json($newData, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);   
+        } 
+        
+    }
+
 
     public function delete($id){
         $res = Order::find($id)->delete();
         return response()->json($id, 200);
-    }
-
-    public function deleteBySessionStripe($session_id) {
-        $data = Order::where('session_id', $session_id)->first();
-        if ($data !== null) {
-            $this->productOrderController->deleteByOrder($data->id);
-            $data->delete();
-        }
-        
     }
 
     
@@ -121,6 +140,8 @@ class OrderController extends Controller {
                 $newData[$i]['state'] = $data[$i]->state;
                 $newData[$i]['creation_date'] = $data[$i]->creation_date;
                 $newData[$i]['modification_date'] = $data[$i]->modification_date;
+                $newData[$i]['session_id'] = $data[$i]->session_id;
+
     
                 $products = ProductOrder::where('order_id', $data[$i]->id)->get();
     
