@@ -53,7 +53,12 @@
                             
                     <div class="sticky bottom-0 h-fit flex flex-col justify-center bg-white">
                         <p class="h4 flex justify-between py-[10px] px-[15px] mb-separator-30 bg-primary">Total <span class="h4">{{ getTotalCart() | number: '1.2-2':'es' }} €</span></p>
-                        <button class="button button-s m-auto mb-separator-50" [routerLink]="'checkout'">Realizar pedido</button>
+                        @if (!user.id) {
+                            <p class="text-center">Inicia sesión para continuar.</p>
+                            <button class="button-link text-center mb-4" (click)="openLogin()">Iniciar sesión</button>
+                        }
+                        <button class="button button-s m-auto mb-separator-50" [routerLink]="'checkout'" [disabled]="!user.id">Realizar pedido</button>
+                        
                 
                     </div>
                 </div>    

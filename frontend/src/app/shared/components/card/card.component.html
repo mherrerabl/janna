@@ -71,8 +71,8 @@
         </div>
 
         <div class="flex flex-wrap gap-[10px] sm:flex-nowrap sm:fustify-between">
-            <button class="button button-s w-full max-w-full sm:max-w-[250px]" [disabled]="dataCard.stock <=0 || user.id === ''" (click)="addProduct()">Añadir a la cesta</button>
-            <button class="button-action button-s w-full max-w-full sm:max-w-[250px]" [disabled]="dataCard.stock<=0 || user.id === '' || true">Comprar ya</button>
+            <button class="button button-s w-full max-w-full sm:max-w-[250px]" [disabled]="dataCard.stock <=0" (click)="addProduct()">Añadir a la cesta</button>
+            <button class="button-action button-s w-full max-w-full sm:max-w-[250px]" [disabled]="dataCard.stock<=0 || true">Comprar ya</button>
         </div>
     </div>
 </div>

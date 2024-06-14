@@ -23,6 +23,8 @@ export class CartComponent implements OnInit {
 
   showCart$!: Observable<'open' | 'close'>;
 
+  showLogin: boolean;
+
   constructor(
     private modalService: ModalService,
     private store: Store<AppState>,
@@ -31,6 +33,8 @@ export class CartComponent implements OnInit {
     this.dataProducts = [];
 
     this.user = new UserClass('', '', '', '', '', null, TypeUser['user'], '');
+
+    this.showLogin = false;
 
     this.store.select('user').subscribe((store) => {
       this.user = store.user;
@@ -114,5 +118,9 @@ export class CartComponent implements OnInit {
 
   closeCart(): void {
     this.modalService.closeCart();
+  }
+
+  openLogin(): void {
+    this.modalService.openLogin();
   }
 }
