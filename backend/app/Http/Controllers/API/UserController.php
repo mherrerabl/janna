@@ -90,7 +90,9 @@ class UserController extends Controller {
             User::create($data);
             $user = User::orderBy('id', 'desc')->first();
 
-            return response()->json($user, 200);
+            $data['id'] = $user->id;
+
+            return response()->json($data, 200);
         }
 
         $data = 'email';

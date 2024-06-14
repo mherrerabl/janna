@@ -38,7 +38,7 @@ class CartController extends Controller
         $cart = Cart::where('user_id', $user)->get();
 
         if (count($cart) == 0) {
-            $cart = $this->create($user_id);
+            $cart = $this->create($user);
             return response()->json($cart, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
         

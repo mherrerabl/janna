@@ -16,7 +16,6 @@ import { CustomValidator } from '../../../shared/validators/custom-validator';
 import { isLoading } from '../../../spinner/actions/spinner.actions';
 import * as UserAction from '../../actions';
 import { TypeUser, UserClass } from '../../models/user';
-import { UserDTO } from '../../models/user.dto';
 
 @Component({
   selector: 'app-register',
@@ -105,17 +104,9 @@ export class RegisterComponent implements OnInit {
     });
 
     this.store.select('user').subscribe((store) => {
-      if (this.isValidForm) {
+      if (store.loaded) {
         this.resetErrors();
-        if (store.user.id !== undefined) {
-          if (this.keepLogin) {
-            let user: UserDTO = {
-              email: store.user.email,
-              token: store.user.token,
-            };
-            this.localService.saveUser(user);
-          }
-
+        if (store.user.token !== undefined && store.user.token !== '') {
           this.registerForm.reset();
           this.showFeedback = true;
           this.checkForm = false;
@@ -139,6 +130,7 @@ export class RegisterComponent implements OnInit {
   resetErrors(): void {
     this.showErrorFeedback = false;
     this.showFeedback = false;
+    this.isValidForm = false;
   }
 
   register(): void {
