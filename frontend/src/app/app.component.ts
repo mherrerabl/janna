@@ -98,7 +98,6 @@ export class AppComponent {
   }
 
   resetCart(): void {
-    this.store.dispatch(isLoading({ status: true }));
     this.store.dispatch(CartAction.resetState());
   }
 
