@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -25,7 +26,8 @@ export class MenuComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private store: Store<AppState>,
-    private localService: LocalStorageService
+    private localService: LocalStorageService,
+    private router: Router
   ) {
     this.countProducts = 0;
     this.store.select('user').subscribe((store) => {
@@ -70,5 +72,9 @@ export class MenuComponent implements OnInit {
     this.localService.removeUser();
 
     this.store.dispatch(UserAction.logout());
+
+    this.closeMenu();
+
+    this.router.navigate(['']);
   }
 }
