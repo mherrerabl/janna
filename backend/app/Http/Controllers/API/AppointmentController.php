@@ -99,12 +99,53 @@ class AppointmentController extends Controller {
 
     
     public function update(Request $request,$id){
-        $data['date'] = $request->date;
-        $data['state'] = $request->state;
-        $data['user_treatment_id'] = $request->user_treatment_id;
-        Appointment::find($id)->update($data);
-        
+        $userTreatments = UserTreatment::where('user_id', $request->user_treatment['user_id'])->get();
+        $userTreatment = [];
+        $newData = [];
+        $userTreatment = [];
+
+        if (!empty($userTreatments)) {
+            for ($i=0; $i < count($userTreatments); $i++) { 
+                if ($userTreatments[$i]->treatment_id == $request->user_treatment['treatment_id']) {
+                    if ($userTreatments[$i]->state !== 'Finalizado' && $userTreatments[$i]->state !== 'No realizado') {
+                        $updateUserTreatment['sessions'] = $userTreatments[$i]['sessions'] + 1;
+    
+                        UserTreatment::find($userTreatments[$i]->id)->update($updateUserTreatment);
+
+                        $userTreatment = UserTreatment::find($userTreatments[$i]->id);
+                    }
+                }
+            }
+        }
+     
+        if (empty($userTreatment)) {
+            $userTreatment['user_id'] = $request->user_treatment['user_id'];
+            $userTreatment['state'] =$request->user_treatment['state'];
+            $userTreatment['sessions'] = 1;
+            $userTreatment['treatment_id'] = $request->user_treatment['treatment_id'];
+
+            UserTreatment::create($userTreatment);
+
+            $userTreatment = UserTreatment::orderBy('id', 'desc')->first();
+        }
+
+          
+        $date = new DateTime($request->date);
+        $date->setTimeZone( new DateTimeZone('Europe/Madrid'));
+        $newData['date'] = $date;
+        $newData['state'] = $request->state;
+        $newData['user_treatment_id'] = $userTreatment->id;
+
+        Appointment::find($id)->update($newData);
+
+        $newData['user_treatment']['id'] = $userTreatment->id;
+        $newData['user_treatment']['user_id'] = $userTreatment->user_id;
+        $newData['user_treatment']['state'] = $userTreatment->state;
+        $newData['user_treatment']['sessions'] = $userTreatment->sessions;
+        $newData['user_treatment']['treatment_id'] = $userTreatment->treatment_id;
+
         return response()->json($newData, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+
     }
 
     

@@ -483,13 +483,27 @@ export class AppointmentFormComponent {
 
     this.getDateForm();
 
-    this.createAppointment();
+    if (this.urlId !== '') {
+      this.updateAppointment();
+    } else {
+      this.createAppointment();
+    }
   }
 
   protected createAppointment(): void {
     this.store.dispatch(isLoading({ status: true }));
     this.store.dispatch(
       AppointmentAction.createAppointment({
+        appointment: this.appointment,
+      })
+    );
+  }
+
+  protected updateAppointment(): void {
+    this.store.dispatch(isLoading({ status: true }));
+    this.store.dispatch(
+      AppointmentAction.updateAppointment({
+        appointmentId: this.urlId as string,
         appointment: this.appointment,
       })
     );

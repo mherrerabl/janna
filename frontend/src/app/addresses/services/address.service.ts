@@ -26,7 +26,7 @@ export class AddressService {
 
   getAddressById(addressId: string): Observable<AddressClass> {
     return this.http
-      .get<AddressClass>(this.urlApi + addressId)
+      .get<AddressClass>(this.urlApi + '/' + addressId)
       .pipe(catchError(this.sharedService.handleError));
   }
 

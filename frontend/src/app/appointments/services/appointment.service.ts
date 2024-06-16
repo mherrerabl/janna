@@ -32,7 +32,7 @@ export class AppointmentService {
 
   getAppointmentById(appointmentId: string): Observable<AppointmentClass> {
     return this.http
-      .get<AppointmentClass>(this.urlApi + appointmentId)
+      .get<AppointmentClass>(this.urlApi + '/' + appointmentId)
       .pipe(catchError(this.sharedService.handleError));
   }
 
