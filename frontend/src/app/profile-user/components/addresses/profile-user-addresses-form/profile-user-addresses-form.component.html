@@ -37,7 +37,12 @@
         </label>
 
         <div class="flex justify-center">
-            <button class="button button-m px-6" type="submit">Actualizar</button>
+            @if (urlId !== null) {
+                <button class="button button-m px-6" type="submit">Actualizar</button>
+            }
+            @else {
+                <button class="button button-m px-6" type="submit">Añadir</button>
+            }
         </div>     
     </form>
   

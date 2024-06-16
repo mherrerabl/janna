@@ -47,13 +47,13 @@ export class AddressService {
     address: AddressClass
   ): Observable<AddressClass> {
     return this.http
-      .put<AddressClass>(this.urlApi + addressId, address)
+      .put<AddressClass>(this.urlApi + '/' + addressId, address)
       .pipe(catchError(this.sharedService.handleError));
   }
 
   deleteAddress(addressId: string): Observable<deleteResponse> {
     return this.http
-      .delete<deleteResponse>(this.urlApi + addressId)
+      .delete<deleteResponse>(this.urlApi + '/' + addressId)
       .pipe(catchError(this.sharedService.handleError));
   }
 }
