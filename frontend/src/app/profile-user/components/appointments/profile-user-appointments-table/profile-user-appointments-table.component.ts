@@ -42,7 +42,7 @@ export class ProfileUserAppointmentsTableComponent implements OnInit {
       this.store.dispatch(isLoading({ status: true }));
     });
 
-    if (this.userId !== undefined || this.userId !== '') {
+    if (this.userId !== undefined && this.userId !== '') {
       this.loadAppointments(this.userId);
     }
   }

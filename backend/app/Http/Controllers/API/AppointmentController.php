@@ -40,11 +40,15 @@ class AppointmentController extends Controller {
         
         for ($i=0; $i < count($userTreatments); $i++) { 
             $appointments = Appointment::where('user_treatment_id', $userTreatments[$i]->id)->get();
+            $data = $this->getData($appointments);
+            $dataObj = array_shift($data);
 
-            $newData = $this->getData($appointments);
+            if ($dataObj !== null) {
+                $newData[] = $dataObj;
+            }
         }
         
-        return response()->json($newData[0], 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        return response()->json($newData, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
 
