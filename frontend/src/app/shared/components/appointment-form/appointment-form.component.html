@@ -28,7 +28,7 @@
        
 
     <div class="flex justify-center">
-        @if (urlId !== '') {
+        @if (urlId !== null && urlId !== '') {
             <button class="button button-m px-6" type="submit">Actualizar cita</button>
         }
         @else {

@@ -483,7 +483,7 @@ export class AppointmentFormComponent {
 
     this.getDateForm();
 
-    if (this.urlId !== '') {
+    if (this.urlId !== null && this.urlId !== '') {
       this.updateAppointment();
     } else {
       this.createAppointment();
