@@ -13,6 +13,7 @@ import { AppState } from '../../../app.reducers';
 import * as CartAction from '../../../carts/actions';
 import { CartClass } from '../../../carts/models/cart';
 import { ProductCartClass } from '../../../carts/models/product-cart';
+import { ModalService } from '../../../shared/services/modal.service';
 import { RouteService } from '../../../shared/services/route.service';
 import { isLoading } from '../../../spinner/actions/spinner.actions';
 import { TypeUser, UserClass } from '../../../users/models/user';
@@ -69,7 +70,8 @@ export class ProductDetailComponent implements OnInit {
     private store: Store<AppState>,
     private routeService: RouteService,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private modalService: ModalService
   ) {
     this.counter = 1;
     this.product = new ProductClass(
@@ -223,5 +225,9 @@ export class ProductDetailComponent implements OnInit {
     }
 
     return false;
+  }
+
+  openLogin(): void {
+    this.modalService.openLogin();
   }
 }

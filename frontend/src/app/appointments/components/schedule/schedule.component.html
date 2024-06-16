@@ -1,7 +1,7 @@
 <app-breadcrumbs></app-breadcrumbs>
 <h1 class="mb-separator-50">Agenda</h1>
 <div class="flex justify-center gap-4 mb-section">
-    <button class="button button-m" (click)="showForm = true">Reservar cita</button>
+    <button class="button button-m" (click)="navigateToSection('sectionFormAppointment')">Reservar cita</button>
     <button class="button button-m" (click)="showCalendar = !showCalendar">{{ showCalendar ? 'Ocultar agenda' : 'Mostrar agenda'}}</button>
 </div>
 
@@ -11,7 +11,7 @@
 
 @if (showForm) {
  
-  <section class="m-auto max-w-[600px]">
+  <section id="sectionFormAppointment" class="m-auto max-w-[600px]">
     <h2 class="text-center">Reservar cita</h2>
     @if (user.id !== '') {
       <app-appointment-form></app-appointment-form>

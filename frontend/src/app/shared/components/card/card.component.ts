@@ -13,6 +13,8 @@ import { TypeUser, UserClass } from '../../../users/models/user';
 import { BadgeDTO } from '../../models/badge.dto';
 import { PriceClass } from '../../models/price';
 import { ProductDTO } from '../../models/product.dto';
+import { ModalService } from '../../services/modal.service';
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -68,7 +70,8 @@ export class CardComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private productService: ProductService
+    private productService: ProductService,
+    private modalService: ModalService
   ) {
     this.cart = new CartClass('', '', 0, new Array<ProductCartClass>());
     this.user = new UserClass('', '', '', '', '', null, TypeUser['user'], '');
@@ -185,5 +188,9 @@ export class CardComponent implements OnInit {
     this.store.dispatch(
       CartAction.addProduct({ userId: this.user.id, product: product })
     );
+  }
+
+  openLogin(): void {
+    this.modalService.openLogin();
   }
 }

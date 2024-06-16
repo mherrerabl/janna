@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { setDefaultOptions } from 'date-fns';
@@ -21,7 +22,8 @@ export class ScheduleComponent {
 
   constructor(
     private store: Store<AppState>,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private scroller: ViewportScroller
   ) {
     this.showCalendar = false;
     this.showForm = false;
@@ -47,5 +49,10 @@ export class ScheduleComponent {
 
   openRegister(): void {
     this.modalService.openRegister();
+  }
+
+  navigateToSection(section: string) {
+    this.showForm = true;
+    this.scroller.scrollToAnchor(section);
   }
 }
