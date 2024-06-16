@@ -36,14 +36,15 @@ class AppointmentController extends Controller {
 
     public function getByUserId($userId) {
         $userTreatments = UserTreatment::where('user_id', $userId)->get();
-      
+        $newData = [];
+        
         for ($i=0; $i < count($userTreatments); $i++) { 
             $appointments = Appointment::where('user_treatment_id', $userTreatments[$i]->id)->get();
 
-            $newData[$i] = $this->getData($appointments)[0];
+            $newData = $this->getData($appointments);
         }
         
-        return response()->json($newData, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        return response()->json($newData[0], 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
 

@@ -37,7 +37,7 @@ export class ProfileUserAddressesTableComponent implements OnInit {
       this.store.dispatch(isLoading({ status: true }));
     });
 
-    if (this.userId !== undefined || this.userId !== '') {
+    if (this.userId !== undefined && this.userId !== '') {
       this.loadAddresses(this.userId);
     }
   }
