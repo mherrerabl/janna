@@ -36,8 +36,10 @@
 
         <div class="flex flex-wrap gap-[10px] sm:flex-nowrap sm:fustify-between sm:justify-center md:justify-end">
             @if (!user.id) {
-                <p class="text-center">Inicia sesión para añadir el producto.</p>
-                <button class="button-link text-center mb-4" (click)="openLogin()">Iniciar sesión</button>
+                <div class="text-center">
+                    <p>Inicia sesión para añadir el producto.</p>
+                    <button class="button-link" (click)="openLogin()">Iniciar sesión</button>
+                </div> 
             }
             @else {
                 <button class="button button-s w-full max-w-full sm:max-w-[250px]" [disabled]="product.stock <=0" (click)="addProduct()">Añadir a la cesta</button>

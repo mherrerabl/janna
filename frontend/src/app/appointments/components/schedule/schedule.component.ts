@@ -53,6 +53,8 @@ export class ScheduleComponent {
 
   navigateToSection(section: string) {
     this.showForm = true;
-    this.scroller.scrollToAnchor(section);
+    setTimeout(() => {
+      this.scroller.scrollToAnchor(section);
+    }, 100);
   }
 }
