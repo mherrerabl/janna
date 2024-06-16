@@ -45,7 +45,7 @@ export class UserService {
 
   updateUser(userId: string, user: UserClass): Observable<UserClass> {
     return this.http
-      .put<UserClass>(this.urlApi + userId + '/', user)
+      .put<UserClass>(this.urlApi + '/' + userId, user)
       .pipe(catchError(this.sharedService.handleError));
   }
 
