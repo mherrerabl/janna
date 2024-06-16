@@ -12,10 +12,10 @@ class MailController extends Controller
 {
    public function send(Request $request)  {
         $data = [
-            'name' => 'Jane',
-            'surname' => 'doe',
-            'email' => 'miribla96@gmail.com',
-            'query' => 'prugunta'
+            'name' => $request['name'],
+            'surname' => $request['surname'],
+            'email' => $request['email'],
+            'query' => $request['query']
         ];
 
         Mail::to([env('MAIL_FROM_ADDRESS'), $data['email']])->send(new Contact($data));
